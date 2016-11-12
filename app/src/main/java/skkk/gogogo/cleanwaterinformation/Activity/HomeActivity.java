@@ -1,29 +1,40 @@
-package skkk.gogogo.cleanwaterinformation;
+package skkk.gogogo.cleanwaterinformation.Activity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import skkk.gogogo.cleanwaterinformation.R;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private FloatingActionButton fab;
+    private Toolbar toolbar;
+
+    /* @描述 生命周期 onCreate */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        initUI();
+        initEvent();
+    }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+    /*
+    * @方法 设置监听事件
+    * @参数
+    * @返回值
+    */
+    private void initEvent() {
+        /* @描述 设置FAB点击事件 */
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -31,17 +42,37 @@ public class HomeActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
+    }
 
+    /*
+    * @方法 初始化UI
+    * @参数
+    * @返回值
+    */
+    private void initUI() {
+        /* @描述 设置透明状态栏 */
+        setContentView(R.layout.activity_home);
+        /* @描述 初始化Toolbar */
+        toolbar = (Toolbar) findViewById(R.id.tb_home);
+        setSupportActionBar(toolbar);
+        /* @描述 初始化FAB */
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        /* @描述 初始化侧滑菜单 */
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
-
+        /* @描述 设置侧滑菜单 */
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    /*
+    * @方法 设置Back按键事件
+    * @参数
+    * @返回值
+    */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -52,21 +83,14 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
-        return true;
-    }
-
+    /*
+    * @方法 设置菜单点击事件
+    * @参数
+    * @返回值
+    */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -74,6 +98,11 @@ public class HomeActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /*
+    * @方法 设置侧滑菜单点击事件
+    * @参数
+    * @返回值
+    */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
