@@ -2,4 +2,7 @@
 <resources>
     <item name="tb_home" type="id">home界面Toolbar</item>
     <item name="fab_home" type="id">home界面FAB</item>
+    <item name="fl_home" type="id">home界面FrameLayout</item>
+    <item name="rv_first" type="id">FirstFragment中的RecyclerView</item>
+    <item name="tvHome" type="id">测试Text</item>
 </resources>

@@ -17,11 +17,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
+import Fragment.FirstFragment;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -31,15 +33,25 @@ public class HomeActivity extends AppCompatActivity
     Toolbar tbHome;
     @Bind(R.id.fab_home)
     FloatingActionButton fabHome;
+    @Bind(R.id.fl_home)
+    FrameLayout flHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initUI();
-
+        initEvent();
+        initDefaultFragment();
     }
 
-    /* @描述 初始化UI */
+
+
+    /*
+    ***************************************************
+    * @方法 初始化UI
+    * @参数
+    * @返回值
+    */
     private void initUI() {
         /* @描述 设置状态栏透明 */
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -62,7 +74,26 @@ public class HomeActivity extends AppCompatActivity
         /* @描述 toolbar */
         setSupportActionBar(tbHome);
 
-        /* @描述 fab点击事件 */
+        /* @描述 侧滑菜单 */
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, tbHome, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+
+    /*
+    ***************************************************
+    * @方法 设置监听事件
+    * @参数
+    * @返回值
+    */
+    private void initEvent() {
+         /* @描述 fab点击事件 */
         fabHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,19 +101,31 @@ public class HomeActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
-
-        /* @描述 侧滑菜单 */
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, tbHome, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
-    /* @描述 菜单、返回键响应 */
+
+
+    /*
+    ***************************************************
+    * @方法 加载默认加载的Fragment页面
+    * @参数
+    * @返回值
+    */
+    private void initDefaultFragment() {
+        FirstFragment firstFragment=new FirstFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fl_home,firstFragment)
+                .commit();
+    }
+
+
+    /*
+    ***************************************************
+    * @方法 菜单、返回键响应
+    * @参数
+    * @返回值
+    */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // TODO Auto-generated method stub
