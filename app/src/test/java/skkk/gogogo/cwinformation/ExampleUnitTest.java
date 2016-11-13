@@ -1,4 +1,4 @@
-package skkk.gogogo.cleanwaterinformation;
+package skkk.gogogo.cwinformation;
 
 import org.junit.Test;
 
