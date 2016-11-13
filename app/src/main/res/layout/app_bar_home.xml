@@ -25,9 +25,7 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 app:title="@string/homeTitle" />
         </android.support.design.widget.AppBarLayout>
-
-
-        //这里放置需要显示的页面
+        
         <include layout="@layout/content_home"/>
 
     </LinearLayout>
