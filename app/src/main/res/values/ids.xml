@@ -5,4 +5,5 @@
     <item name="fl_home" type="id">home界面FrameLayout</item>
     <item name="rv_first" type="id">FirstFragment中的RecyclerView</item>
     <item name="tvHome" type="id">测试Text</item>
+    <item name="btn_test" type="id">测试</item>
 </resources>
