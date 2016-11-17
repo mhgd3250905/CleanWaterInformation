@@ -18,9 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import DataBean.HuXiuBean;
+import DataBean.ITHomeBean;
 import MyUtils.LogUtils;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -55,6 +59,10 @@ public class FirstFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        //第一：默认初始化
+        Bmob.initialize(getContext(), "9e16e39fa5374f446e5c928da0f83d62");
+
         View view = inflater.inflate(R.layout.fragment_first, container, false);
         ButterKnife.bind(this, view);
         initUI();
@@ -117,18 +125,50 @@ public class FirstFragment extends Fragment {
                     @Override
                     public void call(String s) {
                         doc = Jsoup.parse(s);
-                        frameData = doc.select("div.mod-info-flow").get(0);
-                        aDatas = frameData.select("div.mod-b");
-                        for (Element eElement : aDatas) {
-                            if (eElement.child(0).className().equals("mod-thumb")) {
-                                HuXiuBean huXiuBean = new HuXiuBean();
-                                huXiuBean.setTitle(eElement.select("div.mod-art").select("a.transition").select("img.lazy").attr("alt"));
-                                huXiuBean.setContentURL(eElement.select("div.mod-art").select("a.transition").attr("href"));
-                                huXiuBean.setImgSrc(eElement.select("div.mod-art").select("a.transition").select("img.lazy").attr("data-original"));
-                                huXiuBeanList.add(huXiuBean);
-                            }
+                        Element select = doc.select("ul.ulcl").get(0);
+                        Elements lis = select.select("li");
+                        for (int i = 0; i < lis.size(); i++) {
+                            ITHomeBean itHomeBean=new ITHomeBean();
+                            itHomeBean.setTitle(lis.get(i).select("a").get(1).text());
+                            itHomeBean.setImgSrc(lis.get(i).select("img").attr("src"));
+                            itHomeBean.setContentURL(lis.get(i).select("a").get(1).attr("href"));
+                            itHomeBean.save(new SaveListener<String>() {
+                                @Override
+                                public void done(String s, BmobException e) {
+                                    if(e==null){
+                                            LogUtils.Log("添加数据成功，返回objectId为："+s);
+                                        }else{
+                                            LogUtils.Log("创建数据失败：" + e.getMessage());
+                                        }
+                                }
+                            });
                         }
+
+//                        frameData = doc.select("div.mod-info-flow").get(0);
+//                        aDatas = frameData.select("div.mod-b");
+//                        for (Element eElement : aDatas) {
+//                            if (eElement.child(0).className().equals("mod-thumb")) {
+//                                HuXiuBean huXiuBean = new HuXiuBean();
+//                                huXiuBean.setTitle(eElement.select("div.mod-art").select("a.transition").select("img.lazy").attr("alt"));
+//                                huXiuBean.setContentURL(eElement.select("div.mod-art").select("a.transition").attr("href"));
+//                                huXiuBean.setImgSrc(eElement.select("div.mod-art").select("a.transition").select("img.lazy").attr("data-original"));
+//                                huXiuBean.save(new SaveListener<String>() {
+//                                    @Override
+//                                    public void done(String s, BmobException e) {
+//                                        if(e==null){
+//                                            LogUtils.Log("添加数据成功，返回objectId为："+s);
+//                                        }else{
+//                                            LogUtils.Log("创建数据失败：" + e.getMessage());
+//                                        }
+//                                    }
+//                                });
+//                                huXiuBeanList.add(huXiuBean);
+//                            }
+//                        }
+
+
                     }
+
                 })
                 .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
                 .subscribe(new Subscriber<String>() {
@@ -146,9 +186,9 @@ public class FirstFragment extends Fragment {
                     public void onNext(String s) {
                         //请求成功
                         for (int i = 0; i < huXiuBeanList.size(); i++) {
-                            LogUtils.Log(huXiuBeanList.get(i).getTitle());
-                            LogUtils.Log(huXiuBeanList.get(i).getContentURL());
-                            LogUtils.Log(huXiuBeanList.get(i).getImgSrc());
+//                            LogUtils.Log(huXiuBeanList.get(i).getTitle());
+//                            LogUtils.Log(huXiuBeanList.get(i).getContentURL());
+//                            LogUtils.Log(huXiuBeanList.get(i).getImgSrc());
                         }
                     }
                 });

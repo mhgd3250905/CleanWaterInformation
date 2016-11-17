@@ -3,15 +3,15 @@ package DataBean;
 import cn.bmob.v3.BmobObject;
 
 /**
- * Created by admin on 2016/11/15.
+ * Created by admin on 2016/11/17.
  */
 /*
 * 
-* 描    述：虎嗅网首页资料
+* 描    述：
 * 作    者：ksheng
-* 时    间：2016/11/15$ 22:53$.
+* 时    间：2016/11/17$ 23:33$.
 */
-public class HuXiuBean extends BmobObject{
+public class ITHomeBean extends BmobObject{
     public String title;
     public String contentURL;
     public String imgSrc;
