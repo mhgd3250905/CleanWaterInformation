@@ -23,7 +23,7 @@ import android.widget.Toast;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import Fragment.FirstFragment;
+import Fragment.ITHomeSpiderFragment;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -112,10 +112,16 @@ public class HomeActivity extends AppCompatActivity
     * @返回值
     */
     private void initDefaultFragment() {
-        FirstFragment firstFragment=new FirstFragment();
-        getSupportFragmentManager()
+//        HuxiuSpiderFragment firstFragment=new HuxiuSpiderFragment();
+//        getSupportFragmentManager()
+//                .beginTransaction()
+//                .add(R.id.fl_home,firstFragment)
+//                .commit();
+
+        ITHomeSpiderFragment itHomeSpiderFragment=new ITHomeSpiderFragment();
+                getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.fl_home,firstFragment)
+                .add(R.id.fl_home,itHomeSpiderFragment)
                 .commit();
     }
 
