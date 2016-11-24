@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +15,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.bmob.v3.Bmob;
-import okhttp3.OkHttpClient;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 import skkk.gogogo.cwinformation.R;
 
 /**
@@ -33,6 +30,9 @@ public abstract class BaseFragment<T> extends Fragment{
 
     @Bind(R.id.btn_test)
     protected Button btnTest;
+    @Bind(R.id.tv_test)
+    protected TextView tvTest;
+
     protected List<T> dataBeanList=new ArrayList<T>();
 
 
@@ -50,11 +50,11 @@ public abstract class BaseFragment<T> extends Fragment{
 
 
     /*
-                ***************************************************
-                * @方法 初始化UI
-                * @参数
-                * @返回值
-                */
+     ***************************************************
+     * @方法 初始化UI
+     * @参数
+     * @返回值
+     */
     private void initUI() {
         btnTest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,20 +73,6 @@ public abstract class BaseFragment<T> extends Fragment{
     private void spiderWebData() {
         spiderWebDoc();
     }
-    public WebService getWebService(String baseURL){
-        /* @描述 初始化Retrofit */
-        Retrofit retrofit = new Retrofit.Builder()
-                .client(new OkHttpClient())
-//                .addConverterFactory(GsonConverterFactory.create())
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())//新的配置
-                .baseUrl(baseURL)
-                .build();
-
-        WebService service = retrofit.create(WebService.class);
-        return service;
-    }
-
 
     public abstract void spiderWebDoc();
 

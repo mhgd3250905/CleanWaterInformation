@@ -16,6 +16,8 @@ public class HuXiuBean extends BmobObject{
     public String contentURL;
     public String imgSrc;
 
+
+
     public String getContentURL() {
         return contentURL;
     }

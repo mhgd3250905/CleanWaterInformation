@@ -3,24 +3,24 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/menu_huxiu"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:title="虎嗅" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/menu_ithome"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:title="IT之家" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/menu_baijia"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:title="百度百家" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/menu_fenghuang"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="凤凰青年网" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="更多">
         <menu>
             <item
                 android:id="@+id/nav_share"

@@ -11,11 +11,6 @@
         <!-- 左边箭头 -->
         <!--<item name="drawerArrowStyle">@color/colorWhite</item>-->
 
-        <!--&lt;!&ndash;透明导航栏&ndash;&gt;-->
-        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
-
-        <!--使状态栏，导航栏可绘制-->
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
@@ -43,7 +38,6 @@
         <!--&lt;!&ndash;透明导航栏&ndash;&gt;-->
         <!--<item name="android:navigationBarColor">@color/colorPrimaryDark</item>-->
         <!--使状态栏，导航栏可绘制-->
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <!--<item name="android:statusBarColor">@android:color/transparent</item>-->

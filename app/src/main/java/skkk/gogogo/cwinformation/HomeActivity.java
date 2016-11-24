@@ -23,6 +23,7 @@ import android.widget.Toast;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import Fragment.HuxiuSpiderFragment;
 import Fragment.ITHomeSpiderFragment;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,7 +44,6 @@ public class HomeActivity extends AppCompatActivity
         initEvent();
         initDefaultFragment();
     }
-
 
 
     /*
@@ -104,7 +104,6 @@ public class HomeActivity extends AppCompatActivity
     }
 
 
-
     /*
     ***************************************************
     * @方法 加载默认加载的Fragment页面
@@ -112,16 +111,10 @@ public class HomeActivity extends AppCompatActivity
     * @返回值
     */
     private void initDefaultFragment() {
-//        HuxiuSpiderFragment firstFragment=new HuxiuSpiderFragment();
-//        getSupportFragmentManager()
-//                .beginTransaction()
-//                .add(R.id.fl_home,firstFragment)
-//                .commit();
-
-        ITHomeSpiderFragment itHomeSpiderFragment=new ITHomeSpiderFragment();
-                getSupportFragmentManager()
+        HuxiuSpiderFragment firstFragment=new HuxiuSpiderFragment();
+        getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.fl_home,itHomeSpiderFragment)
+                .add(R.id.fl_home,firstFragment)
                 .commit();
     }
 
@@ -135,8 +128,7 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // TODO Auto-generated method stub
-        if(keyCode == KeyEvent.KEYCODE_BACK)
-        {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
@@ -197,19 +189,28 @@ public class HomeActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        switch (id) {
+            case R.id.menu_huxiu:
+                HuxiuSpiderFragment firstFragment = new HuxiuSpiderFragment();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.fl_home, firstFragment)
+                        .commit();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+                break;
+            case R.id.menu_ithome:
+                ITHomeSpiderFragment itHomeSpiderFragment = new ITHomeSpiderFragment();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.fl_home, itHomeSpiderFragment)
+                        .commit();
+                break;
+            case R.id.menu_baijia:
 
-        } else if (id == R.id.nav_slideshow) {
+                break;
+            case R.id.menu_fenghuang:
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

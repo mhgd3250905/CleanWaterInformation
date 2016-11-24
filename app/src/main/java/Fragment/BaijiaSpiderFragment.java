@@ -11,14 +11,15 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import DataBean.ITHomeBean;
+import DataBean.HuXiuBean;
+import GsonBean.HuiuGsonBean;
 import MyUtils.LogUtils;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -32,38 +33,34 @@ import rx.schedulers.Schedulers;
 * 作    者：ksheng
 * 时    间：2016/11/13$ 21:43$.
 */
-public class ITHomeSpiderFragment extends BaseFragment<ITHomeBean> {
-    private static final String ITHOME_URL="http://www.ithome.com/ithome/";
+public class BaijiaSpiderFragment extends BaseFragment<HuXiuBean> {
+    private static final String HUXIU_URL="https://www.huxiu.com/";
     private int page=1;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         return super.onCreateView(inflater, container, savedInstanceState);
-
     }
-
 
     @Override
     public void spiderWebDoc() {
-  /* @描述 获取Observable对象 */
+          /* @描述 获取Observable对象 */
         /* @描述 初始化Retrofit */
         Retrofit retrofit = new Retrofit.Builder()
                 .client(new OkHttpClient())
-//                .addConverterFactory(GsonConverterFactory.create())
-                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())//新的配置
-                .baseUrl(ITHOME_URL)
+                .baseUrl(HUXIU_URL)
                 .build();
 
         WebService service = retrofit.create(WebService.class);
 
         for (int i = 1; i <= page; i++) {
-            service.getITHomeData(i+"","indexpage")
+            service.getHuxiuData(i+"")
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<String>() {
+                    .subscribe(new Subscriber<HuiuGsonBean>() {
                         @Override
                         public void onCompleted() {
                         }
@@ -73,29 +70,33 @@ public class ITHomeSpiderFragment extends BaseFragment<ITHomeBean> {
                         }
 
                         @Override
-                        public void onNext(String s) {
-                            Document document = Jsoup.parse(s);
-                            Elements eles_1=document.select("ul.ulcl").select("li");
+                        public void onNext(HuiuGsonBean huiuGsonBean) {
+                            Document doc = Jsoup.parse(huiuGsonBean.getData());
+                            Elements eles_1 = doc.select("div.mod-b.mod-art");
                             LogUtils.Log(eles_1.size()+"");
-                            for (Element ele_2:eles_1){
-                                ITHomeBean itHomeBean=new ITHomeBean();
-                                itHomeBean.setContentURL(ele_2.select("div.block").select("h2").select("a").attr("href"));
-                                itHomeBean.setImgSrc(ele_2.select("a.list_thumbnail").select("img").attr("src"));
-                                itHomeBean.setTitle(ele_2.select("div.block").select("h2").select("a").text());
-                                itHomeBean.save(new SaveListener<String>() {
+                            for(Element ele_2:eles_1){
+                                HuXiuBean huXiuBean=new HuXiuBean();
+                                huXiuBean.setContentURL(HUXIU_URL+ele_2.select("div.mod-thumb").select("a.transition").attr("href"));
+                                huXiuBean.setTitle(ele_2.select("div.mod-thumb").select("a.transition").attr("title"));
+                                huXiuBean.setImgSrc(ele_2.select("div.mod-thumb").select("a.transition").select("img").attr("data-original"));
+                                huXiuBean.save(new SaveListener<String>() {
                                     @Override
                                     public void done(String s, BmobException e) {
                                         if(e==null){
-                                            LogUtils.Log("爬取并保存完毕！");
+                                            LogUtils.Log("添加数据成功，返回objectId为："+s);
                                         }else{
                                             LogUtils.Log("创建数据失败：" + e.getMessage());
                                         }
                                     }
                                 });
+                                LogUtils.Log(HUXIU_URL+ele_2.select("div.mod-thumb").select("a.transition").attr("href"));
+                                LogUtils.Log(ele_2.select("div.mod-thumb").select("a.transition").attr("title"));
+                                LogUtils.Log(ele_2.select("div.mod-thumb").select("a.transition").select("img").attr("data-original"));
                             }
                         }
                     });
         }
+
     }
 
 
