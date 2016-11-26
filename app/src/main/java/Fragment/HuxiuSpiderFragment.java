@@ -7,16 +7,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import DataBean.HuXiuBean;
 import DataBean.HuXiuContentBean;
+import DataBean.JsonHuxiu;
 import GsonBean.HuiuGsonBean;
+import GsonBean.HuxiuGson;
 import MyUtils.LogUtils;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
@@ -25,8 +31,6 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -41,7 +45,8 @@ import rx.schedulers.Schedulers;
 public class HuxiuSpiderFragment extends BaseFragment<HuXiuBean> {
     private static final String HUXIU_URL = "https://m.huxiu.com/";
     private int page = 15;
-    private String contentHtml;
+    private int num=0;
+
 
     @Nullable
     @Override
@@ -62,35 +67,47 @@ public class HuxiuSpiderFragment extends BaseFragment<HuXiuBean> {
 
         WebService service = retrofit.create(WebService.class);
 
-        for (int i = 1; i <= page; i++) {
+        for (int i = 2; i <page; i++) {
+
             service.getMobileHuxiuData(i + "")
                     .subscribeOn(Schedulers.io())
-                    .doOnNext(new Action1<HuiuGsonBean>() {
+                    .observeOn(Schedulers.io())
+                    .subscribe(new Subscriber<HuiuGsonBean>() {
                         @Override
-                        public void call(HuiuGsonBean huiuGsonBean) {
+                        public void onCompleted() {
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                        }
+
+                        @Override
+                        public void onNext(HuiuGsonBean huiuGsonBean) {
 
                             Document doc = Jsoup.parse(huiuGsonBean.getData());
+
                             Elements eles_1 = doc.select("li");
-                            LogUtils.Log(eles_1.size() + "");
 
-                            for (Element ele_2 : eles_1) {
+                            List<HuXiuBean> huXiuBeanList=new ArrayList<HuXiuBean>();
 
+                            long num=0;
+
+                            for (int j = 0; j <eles_1.size(); j++) {
+                                Element ele_2=eles_1.get(j);
                                 HuXiuBean huXiuBean = new HuXiuBean();
+                                String url_last = ele_2.select("a").get(1).attr("href");
 
-                                huXiuBean.setContentURL(HUXIU_URL + ele_2.select("a").get(1).attr("href"));
+                                huXiuBean.setContentURL(HUXIU_URL + url_last);
                                 huXiuBean.setTitle(ele_2.select("a").get(1).select("div.article-info-box").select("div.article-md-title").text());
                                 huXiuBean.setImgSrc(ele_2.select("a").get(1).select("img").attr("data-original"));
 
-                                huXiuBean.save(new SaveListener<String>() {
-                                    @Override
-                                    public void done(String s, BmobException e) {
-                                        if (e == null) {
-                                            LogUtils.Log("外围爬取成功");
-                                        } else {
-                                            LogUtils.Log("创建数据失败：" + e.getMessage());
-                                        }
-                                    }
-                                });
+                                if (j==0){
+                                    num= Long.parseLong(url_last.substring(9,15));
+                                }
+
+
+                                huXiuBeanList.add(huXiuBean);
+
 
                                 /* @描述 如果bean本身不为空且内容链接不是空  */
 
@@ -113,9 +130,7 @@ public class HuxiuSpiderFragment extends BaseFragment<HuXiuBean> {
                                                 .select("div.htmlBox")
                                                 .select("div.article-content-title-box");
 
-
-                                        contentHtml = "";
-                                        contentHtml = "<!DOCTYPE HTML>\n" +
+                                        String contentHtml = "<!DOCTYPE HTML>\n" +
                                                 "<HTML>\n" +
                                                 "<head lang=\"en\">\n" +
                                                 "   <meta charset=\"GB2312\" >  " +
@@ -166,7 +181,7 @@ public class HuxiuSpiderFragment extends BaseFragment<HuXiuBean> {
                                                         "    height: 45px;\n" +
                                                         "    border-radius: 46px;\n" +
                                                         "    overflow: hidden;\n" +
-                                                        "}"+
+                                                        "}" +
                                                         ".article-box a.rec-link {\n" +
                                                         "    display: inline-block;\n" +
                                                         "    font-size: 45px;\n" +
@@ -174,7 +189,7 @@ public class HuxiuSpiderFragment extends BaseFragment<HuXiuBean> {
                                                         "    color: #bbb;\n" +
                                                         "    margin-top: 25px;\n" +
                                                         "    margin-bottom: 15px;\n" +
-                                                        "}"+
+                                                        "}" +
                                                         "</style>" +
                                                         "</head>\n" +
                                                         "\n" +
@@ -194,7 +209,7 @@ public class HuxiuSpiderFragment extends BaseFragment<HuXiuBean> {
                                                 if (e == null) {
                                                     LogUtils.Log("内容爬取成功");
                                                 } else {
-                                                    LogUtils.Log("创建数据失败：" + e.getMessage());
+                                                    LogUtils.Log("内容爬取失败");
                                                 }
                                             }
                                         });
@@ -204,20 +219,27 @@ public class HuxiuSpiderFragment extends BaseFragment<HuXiuBean> {
 
                                 }
                             }
-                        }
-                    })
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<HuiuGsonBean>() {
-                        @Override
-                        public void onCompleted() {
-                        }
 
-                        @Override
-                        public void onError(Throwable e) {
-                        }
+                            HuxiuGson gsonData = new HuxiuGson();
+                            gsonData.setData(huXiuBeanList);
+                            Gson gson = new Gson();
+                            String gsonStr = gson.toJson(gsonData);
+                            JsonHuxiu jsonHuxiu = new JsonHuxiu();
+                            jsonHuxiu.setSpiderTime(String.valueOf(System.currentTimeMillis()));
+                            jsonHuxiu.setJsonData(gsonStr);
+                            jsonHuxiu.setNum(num);
+                            num++;
 
-                        @Override
-                        public void onNext(HuiuGsonBean huiuGsonBean) {
+                            jsonHuxiu.save(new SaveListener<String>() {
+                                @Override
+                                public void done(String s, BmobException e) {
+                                    if (e == null) {
+                                        LogUtils.Log("JSON外围内容爬取成功");
+                                    } else {
+                                        LogUtils.Log("创建数据失败：" + e.getMessage());
+                                    }
+                                }
+                            });
                         }
                     });
         }

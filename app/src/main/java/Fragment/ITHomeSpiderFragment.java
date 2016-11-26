@@ -6,12 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import DataBean.ITHomeBean;
+import DataBean.JsonITHome;
+import GsonBean.ITHomeGson;
 import MyUtils.LogUtils;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
@@ -34,7 +41,7 @@ import rx.schedulers.Schedulers;
 */
 public class ITHomeSpiderFragment extends BaseFragment<ITHomeBean> {
     private static final String ITHOME_URL="http://www.ithome.com/ithome/";
-    private int page=1;
+    private int page=14;
 
     @Nullable
     @Override
@@ -76,23 +83,55 @@ public class ITHomeSpiderFragment extends BaseFragment<ITHomeBean> {
                         public void onNext(String s) {
                             Document document = Jsoup.parse(s);
                             Elements eles_1=document.select("ul.ulcl").select("li");
-                            LogUtils.Log(eles_1.size()+"");
-                            for (Element ele_2:eles_1){
+
+
+                            List<ITHomeBean> itHomeBeenList=new ArrayList<ITHomeBean>();
+
+                            long num=0;
+
+                            for (int j = 0; j <eles_1.size(); j++) {
+
+                                Element ele_2=eles_1.get(j);
+
                                 ITHomeBean itHomeBean=new ITHomeBean();
-                                itHomeBean.setContentURL(ele_2.select("div.block").select("h2").select("a").attr("href"));
+                                String url_last = ele_2.select("div.block").select("h2").select("a").attr("href");
+
+                                itHomeBean.setContentURL(url_last);
                                 itHomeBean.setImgSrc(ele_2.select("a.list_thumbnail").select("img").attr("src"));
                                 itHomeBean.setTitle(ele_2.select("div.block").select("h2").select("a").text());
-                                itHomeBean.save(new SaveListener<String>() {
-                                    @Override
-                                    public void done(String s, BmobException e) {
-                                        if(e==null){
-                                            LogUtils.Log("爬取并保存完毕！");
-                                        }else{
-                                            LogUtils.Log("创建数据失败：" + e.getMessage());
-                                        }
-                                    }
-                                });
+
+                                if (j==0){
+                                    //http://www.ithome.com/html/digi/275825.htm
+                                    num= Long.parseLong(
+                                            url_last.substring(url_last.length()-10,url_last.length()-4));
+                                    LogUtils.Log(url_last.substring(url_last.length()-10,url_last.length()-4));
+                                }
+
+                                itHomeBeenList.add(itHomeBean);
+
                             }
+
+                            ITHomeGson gsonData = new ITHomeGson();
+                            gsonData.setData(itHomeBeenList);
+                            Gson gson = new Gson();
+                            String gsonStr = gson.toJson(gsonData);
+                            JsonITHome jsonITHome = new JsonITHome();
+                            jsonITHome.setSpiderTime(String.valueOf(System.currentTimeMillis()));
+                            jsonITHome.setJsonData(gsonStr);
+                            jsonITHome.setNum(num);
+                            num++;
+
+                            jsonITHome.save(new SaveListener<String>() {
+                                @Override
+                                public void done(String s, BmobException e) {
+                                    if (e == null) {
+                                        LogUtils.Log("JSON外围内容爬取成功");
+                                    } else {
+                                        LogUtils.Log("创建数据失败：" + e.getMessage());
+                                    }
+                                }
+                            });
+
                         }
                     });
         }
