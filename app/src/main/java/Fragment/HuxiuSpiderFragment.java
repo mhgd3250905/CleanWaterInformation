@@ -101,13 +101,11 @@ public class HuxiuSpiderFragment extends BaseFragment<HuXiuBean> {
                                 huXiuBean.setTitle(ele_2.select("a").get(1).select("div.article-info-box").select("div.article-md-title").text());
                                 huXiuBean.setImgSrc(ele_2.select("a").get(1).select("img").attr("data-original"));
 
-                                if (j==0){
+                                if (j<1){
                                     num= Long.parseLong(url_last.substring(9,15));
                                 }
 
-
                                 huXiuBeanList.add(huXiuBean);
-
 
                                 /* @描述 如果bean本身不为空且内容链接不是空  */
 
@@ -115,8 +113,10 @@ public class HuxiuSpiderFragment extends BaseFragment<HuXiuBean> {
                                     try {
 
                                         String url = huXiuBean.getContentURL();
+                                        LogUtils.Log("url:  "+url);
+
                                         Document docContent = Jsoup.connect(url)
-                                                .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36")
+                                                .userAgent(" Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36")
                                                 .execute().parse();
 
                                         String css = docContent.getElementsByTag("head")

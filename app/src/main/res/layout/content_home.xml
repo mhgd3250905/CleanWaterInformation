@@ -9,6 +9,8 @@
     tools:context="skkk.gogogo.cwinformation.HomeActivity"
     tools:showIn="@layout/app_bar_home">
 
+
+
     <FrameLayout
         android:id="@id/fl_home"
         android:layout_width="match_parent"
