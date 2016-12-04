@@ -146,7 +146,7 @@ public class HuxiuSpiderFragment extends BaseFragment<HuXiuBean> {
                                                         "   html, body {\n" +
                                                         "    padding: 0;\n" +
                                                         "    margin: 0 auto;\n" +
-                                                        "    font-size: 20px;\n" +
+                                                        "    font-size: 45px;\n" +
                                                         "    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);\n" +
                                                         "    background: #fff;\n" +
                                                         "    color: #333;\n" +

@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -25,9 +23,9 @@ import android.widget.Toast;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import Fragment.BaijiaSpiderFragment;
 import Fragment.HuxiuSpiderFragment;
 import Fragment.ITHomeSpiderFragment;
-import Fragment.TestSpiderFragment;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -200,7 +198,7 @@ public class HomeActivity extends AppCompatActivity
                 HuxiuSpiderFragment firstFragment = new HuxiuSpiderFragment();
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .add(R.id.fl_home, firstFragment)
+                        .replace(R.id.fl_home, firstFragment)
                         .commit();
 
                 break;
@@ -208,14 +206,14 @@ public class HomeActivity extends AppCompatActivity
                 ITHomeSpiderFragment itHomeSpiderFragment = new ITHomeSpiderFragment();
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .add(R.id.fl_home, itHomeSpiderFragment)
+                        .replace(R.id.fl_home, itHomeSpiderFragment)
                         .commit();
                 break;
             case R.id.menu_baijia:
-                TestSpiderFragment testSpiderFragment = new TestSpiderFragment();
+                BaijiaSpiderFragment baijiaSpiderFragment = new BaijiaSpiderFragment();
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .add(R.id.fl_home, testSpiderFragment)
+                        .replace(R.id.fl_home, baijiaSpiderFragment)
                         .commit();
                 break;
             case R.id.menu_fenghuang:

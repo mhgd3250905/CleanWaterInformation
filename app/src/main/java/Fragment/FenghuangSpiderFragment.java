@@ -41,7 +41,7 @@ import rx.schedulers.Schedulers;
 * 作    者：ksheng
 * 时    间：2016/11/13$ 21:43$.
 */
-public class ITHomeSpiderFragment extends BaseFragment<ITHomeBean> {
+public class FenghuangSpiderFragment extends BaseFragment<ITHomeBean> {
     private static final String ITHOME_URL="http://www.ithome.com/ithome/";
     private int page=10;
 
