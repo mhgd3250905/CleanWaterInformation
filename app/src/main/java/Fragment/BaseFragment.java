@@ -3,15 +3,18 @@ package Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
+
+import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import Adapter.SpiderAdapter;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.bmob.v3.Bmob;
@@ -30,10 +33,13 @@ public abstract class BaseFragment<T> extends Fragment{
 
     @Bind(R.id.btn_test)
     protected Button btnTest;
-    @Bind(R.id.tv_test)
-    protected TextView tvTest;
+    @Bind(R.id.rv_spider)
+    protected PullLoadMoreRecyclerView rvSpider;
+
+    protected SpiderAdapter adapter;
 
     protected List<T> dataBeanList=new ArrayList<T>();
+    protected List<String> spiderTipList=new ArrayList<String>();
 
 
     @Nullable
@@ -56,6 +62,18 @@ public abstract class BaseFragment<T> extends Fragment{
      * @返回值
      */
     private void initUI() {
+        /* @描述 设置Adapter */
+        adapter = new SpiderAdapter(getContext(),spiderTipList);
+        /* @描述 布局 */
+        rvSpider.setLinearLayout();
+        /* @描述 设置间距 */
+        SpacesItemDecoration mDecoration = new SpacesItemDecoration(3);
+        /* @描述 添加间距 */
+        rvSpider.addItemDecoration(mDecoration);
+        /* @描述 设置基本动画 */
+        rvSpider.setItemAnimator(new DefaultItemAnimator());
+        /* @描述 rvNoteList */
+        rvSpider.setAdapter(adapter);
         btnTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

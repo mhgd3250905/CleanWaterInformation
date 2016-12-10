@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -51,6 +52,7 @@ public class HuxiuSpiderFragment extends BaseFragment<HuXiuBean> {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -75,6 +77,7 @@ public class HuxiuSpiderFragment extends BaseFragment<HuXiuBean> {
                     .subscribe(new Subscriber<HuiuGsonBean>() {
                         @Override
                         public void onCompleted() {
+                            //Toast.makeText(getContext(), "爬虫执行完毕", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
@@ -113,7 +116,7 @@ public class HuxiuSpiderFragment extends BaseFragment<HuXiuBean> {
                                     try {
 
                                         String url = huXiuBean.getContentURL();
-                                        LogUtils.Log("url:  "+url);
+                                        //LogUtils.Log("url:  "+url);
 
                                         Document docContent = Jsoup.connect(url)
                                                 .userAgent(" Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36")
@@ -207,8 +210,10 @@ public class HuxiuSpiderFragment extends BaseFragment<HuXiuBean> {
                                             @Override
                                             public void done(String s, BmobException e) {
                                                 if (e == null) {
+
                                                     LogUtils.Log("内容爬取成功");
                                                 } else {
+
                                                     LogUtils.Log("内容爬取失败");
                                                 }
                                             }
@@ -234,8 +239,10 @@ public class HuxiuSpiderFragment extends BaseFragment<HuXiuBean> {
                                 @Override
                                 public void done(String s, BmobException e) {
                                     if (e == null) {
+                                        spiderTipList.add("JSON外围内容爬取成功");
                                         LogUtils.Log("JSON外围内容爬取成功");
                                     } else {
+                                        spiderTipList.add("创建数据失败：" + e.getMessage());
                                         LogUtils.Log("创建数据失败：" + e.getMessage());
                                     }
                                 }
@@ -243,7 +250,7 @@ public class HuxiuSpiderFragment extends BaseFragment<HuXiuBean> {
                         }
                     });
         }
-
+        adapter.append(spiderTipList);
     }
 
 

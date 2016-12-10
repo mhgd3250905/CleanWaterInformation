@@ -3,11 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorGray">
-<!--<android.support.v7.widget.RecyclerView-->
-    <!--android:id="@id/rv_first"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>-->
-    <Button
+
+  <Button
 
         android:id="@id/btn_test"
         android:onClick="start"
@@ -16,8 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@id/tv_test"
+    <com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView
+        android:background="@color/colorPrimary"
+        android:id="@id/rv_spider"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/btn_test" />

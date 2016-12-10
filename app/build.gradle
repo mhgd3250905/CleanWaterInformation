@@ -47,7 +47,7 @@ dependencies {
                 *这里是下拉刷新框架
                 * */
     compile 'com.nineoldandroids:library:2.4.0'
-    compile 'cn.bingoogolapple:bga-refreshlayout:1.1.6@aar'
+    compile 'com.wuxiaolong.pullloadmorerecyclerview:library:1.1.1'
     /*
                 *jsoup 你懂的
                 * */
