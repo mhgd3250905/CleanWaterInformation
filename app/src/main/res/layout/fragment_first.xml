@@ -3,8 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorGray">
+<<<<<<< HEAD
 
   <Button
+=======
+<!--<android.support.v7.widget.RecyclerView-->
+    <!--android:id="@id/rv_first"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>-->
+    <Button
+>>>>>>> origin/master
 
         android:id="@id/btn_test"
         android:onClick="start"
@@ -13,9 +21,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+<<<<<<< HEAD
     <com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView
         android:background="@color/colorPrimary"
         android:id="@id/rv_spider"
+=======
+    <TextView
+        android:id="@id/tv_test"
+>>>>>>> origin/master
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/btn_test" />

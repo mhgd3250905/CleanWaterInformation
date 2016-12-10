@@ -94,9 +94,15 @@ public class BaijiaSpiderFragment extends BaseFragment<HuXiuBean> {
 
                         WebService service = retrofit.create(WebService.class);
 
+<<<<<<< HEAD
                         for (int i = 0; i < 1; i++) {
 
                             service.getBaijiaData(i + "", "50", prevarticalid, "1", "3")
+=======
+                        for (int i = 0; i < page; i++) {
+
+                            service.getBaijiaData(i + "", "20", prevarticalid, "1", "3")
+>>>>>>> origin/master
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(Schedulers.io())
                                     .subscribe(new Subscriber<BaijiaGsonBean>() {
@@ -144,7 +150,11 @@ public class BaijiaSpiderFragment extends BaseFragment<HuXiuBean> {
                                                     try {
 
                                                         String url = baijiaBean.getContentURL();
+<<<<<<< HEAD
                                                         //LogUtils.Log("url:  " + url);
+=======
+                                                        LogUtils.Log("url:  " + url);
+>>>>>>> origin/master
 
                                                         Document docContent = Jsoup.connect(url)
                                                                 .userAgent("Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.75 Mobile Safari/537.36")
@@ -230,9 +240,12 @@ public class BaijiaSpiderFragment extends BaseFragment<HuXiuBean> {
                 });
 
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> origin/master
     }
 
 
@@ -244,7 +257,11 @@ public class BaijiaSpiderFragment extends BaseFragment<HuXiuBean> {
                     .get();
 
 
+<<<<<<< HEAD
             Element elements = baijiazBaseDoc.select("body").select("div").get(8).select("a.feed-item").last();
+=======
+            Element elements = baijiazBaseDoc.select("body").select("div").get(8).select("a.feed-item").get(0);
+>>>>>>> origin/master
 
             prevarticalidGet = elements.attr("data-nid").toString();
 

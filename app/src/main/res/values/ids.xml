@@ -7,6 +7,9 @@
     <item name="tvHome" type="id">测试Text</item>
     <item name="btn_test" type="id">测试</item>
     <item name="tv_test" type="id">显示爬取信息</item>
+<<<<<<< HEAD
     <item name="rv_spider" type="id">显示爬虫信息的RecyclerView</item>
     <item name="tv_item" type="id">item文本内容</item>
+=======
+>>>>>>> origin/master
 </resources>

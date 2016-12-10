@@ -7,7 +7,10 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+<<<<<<< HEAD
 import retrofit2.http.Path;
+=======
+>>>>>>> origin/master
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -58,5 +61,9 @@ interface WebService {
             "User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36"
     })
     @GET("{page}/data.shtml")
+<<<<<<< HEAD
     Observable<String> getFenghuangData(@Path("page") String page);
+=======
+    Observable<BaijiaGsonBean> getFenghuangData(@Query("page") String page);
+>>>>>>> origin/master
 }

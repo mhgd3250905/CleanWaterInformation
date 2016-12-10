@@ -24,7 +24,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import Fragment.BaijiaSpiderFragment;
+<<<<<<< HEAD
 import Fragment.FenghuangSpiderFragment;
+=======
+>>>>>>> origin/master
 import Fragment.HuxiuSpiderFragment;
 import Fragment.ITHomeSpiderFragment;
 import butterknife.Bind;
@@ -218,11 +221,15 @@ public class HomeActivity extends AppCompatActivity
                         .commit();
                 break;
             case R.id.menu_fenghuang:
+<<<<<<< HEAD
                 FenghuangSpiderFragment fenghuangSpiderFragment = new FenghuangSpiderFragment();
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fl_home, fenghuangSpiderFragment)
                         .commit();
+=======
+
+>>>>>>> origin/master
                 break;
         }
 

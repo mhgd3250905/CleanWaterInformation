@@ -3,18 +3,28 @@ package Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+<<<<<<< HEAD
 import android.support.v7.widget.DefaultItemAnimator;
+=======
+>>>>>>> origin/master
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+<<<<<<< HEAD
 
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
+=======
+import android.widget.TextView;
+>>>>>>> origin/master
 
 import java.util.ArrayList;
 import java.util.List;
 
+<<<<<<< HEAD
 import Adapter.SpiderAdapter;
+=======
+>>>>>>> origin/master
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.bmob.v3.Bmob;
@@ -33,6 +43,7 @@ public abstract class BaseFragment<T> extends Fragment{
 
     @Bind(R.id.btn_test)
     protected Button btnTest;
+<<<<<<< HEAD
     @Bind(R.id.rv_spider)
     protected PullLoadMoreRecyclerView rvSpider;
 
@@ -40,6 +51,12 @@ public abstract class BaseFragment<T> extends Fragment{
 
     protected List<T> dataBeanList=new ArrayList<T>();
     protected List<String> spiderTipList=new ArrayList<String>();
+=======
+    @Bind(R.id.tv_test)
+    protected TextView tvTest;
+
+    protected List<T> dataBeanList=new ArrayList<T>();
+>>>>>>> origin/master
 
 
     @Nullable
@@ -62,6 +79,7 @@ public abstract class BaseFragment<T> extends Fragment{
      * @返回值
      */
     private void initUI() {
+<<<<<<< HEAD
         /* @描述 设置Adapter */
         adapter = new SpiderAdapter(getContext(),spiderTipList);
         /* @描述 布局 */
@@ -74,6 +92,8 @@ public abstract class BaseFragment<T> extends Fragment{
         rvSpider.setItemAnimator(new DefaultItemAnimator());
         /* @描述 rvNoteList */
         rvSpider.setAdapter(adapter);
+=======
+>>>>>>> origin/master
         btnTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
